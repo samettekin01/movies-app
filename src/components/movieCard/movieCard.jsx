@@ -5,11 +5,6 @@ import "./movie-card.css"
 function MovieCard() {
     const { movies, changeSearch } = useMovie();
 
-    const detail = e => {
-        console.log(movies.results[e].original_title)
-    }
-
-    //6gBvsiEMcTst9IiK4gjlxwrf98u.jpg
     return (
         <div className="flex flex-col items-center" >
             <div className="w-full flex fixed flex-col items-center" style={{ zIndex: 1 }}>
@@ -17,7 +12,7 @@ function MovieCard() {
             </div>
             <div className="flex flex-row flex-wrap justify-around m-16">
                 {movies.results ? movies.results.map((data, index) =>
-                    <div className="movie-card" key={index} onClick={() => detail(index)}>
+                    <div className="movie-card" key={index} >
                         <div className="img-container relative">
                             <img
                                 className="w-full rounded-lg"
