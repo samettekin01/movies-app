@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-html,body{
-    background: linear-gradient(45deg, red, blue);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+html,
+body,
+#root,
+.App {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(29, 27, 51);
 }

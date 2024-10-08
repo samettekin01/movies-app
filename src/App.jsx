@@ -1,14 +1,13 @@
+import { Outlet } from 'react-router-dom';
 import './App.css';
-import MovieCard from './components/movieCard/movieCard';
-import { MoviesProvider } from './components/providers/moviesProvider';
+import NavBar from './components/common/NavBar/NavBar';
 
 function App() {
-  
+
   return (
     <div className="App">
-      <MoviesProvider>
-        <MovieCard />
-      </MoviesProvider>
+      <NavBar />
+      <Outlet />
     </div>
   );
 }
