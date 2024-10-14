@@ -9,6 +9,7 @@ function PopulerMoviesCards() {
 
     const { moviesList, topRatedMoviesList } = useSelector(state => state.moviesList)
 
+
     useEffect(() => {
         dispatch(getPopulerMoviesList())
         dispatch(getTopRatedMovies())
