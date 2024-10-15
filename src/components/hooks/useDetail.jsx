@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getMoviesCredits, getMoviesDetail, getMovieVideo, getSimilarMovies } from '../redux/slices/moviesSlice'
@@ -23,7 +23,7 @@ function useDetail() {
         setCredits(null)
         setVideo(null)
         setSimilarList(null)
-        if (!loading) {
+        if (id) {
             if (type === "movie") {
                 dispatch(getMoviesDetail(id))
                 dispatch(getMoviesCredits(id))
@@ -39,19 +39,23 @@ function useDetail() {
         setLoading(true)
     }, [dispatch, id, type, loading])
 
-    useEffect(() => {
+    useMemo(() => {
         if (type === "movie") {
             setDetail(movieDetail)
             setCredits(movieCredits)
             setVideo(movieVideo)
             setSimilarList(similarMoviesList)
-        } else if (type === "tv") {
+        }
+    }, [movieDetail, movieCredits, movieVideo, similarMoviesList, type])
+
+    useMemo(() => {
+        if (type === "tv") {
             setDetail(tvDetail)
             setCredits(tvCredits)
             setVideo(tvVideo)
             setSimilarList(similarTVList)
         }
-    }, [movieDetail, movieCredits, movieVideo, similarMoviesList, tvDetail, tvCredits, tvVideo, similarTVList, type])
+    }, [tvDetail, tvCredits, tvVideo, similarTVList, type])
     return ({
         loading, detail, credits, video, similarList, setLoading, setDetail, setCredits, setVideo, setSimilarList
     })

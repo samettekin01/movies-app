@@ -11,9 +11,9 @@ function Detail() {
         window.addEventListener("resize", () => {
             setWidth(window.innerWidth)
         })
-    })
+    },[])
 
-    if (loading) {
+    if (loading && detail) {
         return (
             <div className="w-full h-full items-center">
                 <div
@@ -34,7 +34,7 @@ function Detail() {
                             className="rounded-2xl mt-auto mb-auto"
                             style={{ width: `${width / 5}px`, height: "100%" }}
                         />
-                        <div className="flex flex-col justify-center gap-4 md:w-2/6 w-full sm:w-full sm:items-center items-center ">
+                        <div className="flex flex-col justify-center gap-4 md:w-4/6 w-full sm:w-full sm:items-center items-center ">
                             <span className="text-white font-bold text-4xl text-center mt-1">{detail?.original_title}</span>
                             <div className="flex gap-4 flex-wrap">
                                 {detail?.genres && detail?.genres.map(d =>
@@ -45,7 +45,7 @@ function Detail() {
                                         {d?.name}
                                     </span>)}
                             </div>
-                            <span className="md:flex text-white sm:hidden hidden">{detail?.overview}</span>
+                            <span className="md:flex text-white sm:hidden hidden line-clamp-4 max-h-52 overflow-auto overflow-x-hidden">{detail?.overview}</span>
                             <span className="text-white font-bold text-xl">Top Casts</span>
                             <div className="flex md:gap-4 sm:gap-2 gap-0">
                                 {credits?.cast && credits?.cast.slice(0, 4).map(d =>
@@ -71,7 +71,7 @@ function Detail() {
                         <iframe
                             title="trailer"
                             className="rounded-2xl md:min-w-[570px] md:min-h-[370px] sm:min-w-[500px] sm:min-h-[300px] min-h-[200px]"
-                            src={`https://www.youtube.com/embed/${video?.results[0]?.key}?enablejsapi=1&autoplay=1`}
+                            src={`https://www.youtube.com/embed/${video?.results[0]?.key}?enablejsapi=1`}
                             allowFullScreen
                         />
                     </div>
@@ -80,7 +80,7 @@ function Detail() {
                         <iframe
                             title="trailer"
                             className="rounded-2xl md:min-w-[570px] md:min-h-[370px] sm:min-w-[500px] sm:min-h-[300px] min-h-[200px]"
-                            src={`https://www.youtube.com/embed/${video?.results[1]?.key}?enablejsapi=1&autoplay=1`}
+                            src={`https://www.youtube.com/embed/${video?.results[1]?.key}?enablejsapi=1`}
                             allowFullScreen
                         />
                     </div>

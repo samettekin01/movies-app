@@ -79,6 +79,17 @@ export const getSimilarTV = createAsyncThunk("similar", async id => {
     }
 })
 
+export const handleTVSearch = createAsyncThunk("searchMovie", async query => {
+    const response = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=1`,options)
+    try {
+        if(response.ok){
+            return response.json()
+        }
+    } catch (e) {
+        console.log("Promise resolved but HTTP status failed (Movie Search)")
+    }
+})
+
 
 export const tvSeriesSlice = createSlice({
     name: "tvSeries",
@@ -88,7 +99,8 @@ export const tvSeriesSlice = createSlice({
         tvVideo: [],
         tvDetail: [],
         tvCredits: [],
-        similarTVList: []
+        similarTVList: [],
+        searchTV: []
     },
     extraReducers: builder => {
         builder.addCase(getTvSeries.fulfilled, (state, action) => {
@@ -108,6 +120,9 @@ export const tvSeriesSlice = createSlice({
         })
         builder.addCase(getSimilarTV.fulfilled, (state, action) => {
             state.similarTVList = action.payload
+        })
+        builder.addCase(handleTVSearch.fulfilled, (state,action) => {
+            state.searchTV = action.payload
         })
     }
 }).reducer

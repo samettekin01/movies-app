@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getMovieVideo, getPopulerMoviesList } from "../../redux/slices/moviesSlice"
 import { setIsOpenFrame } from "../../redux/slices/statusSlice"
@@ -18,6 +18,8 @@ function PopularMoviesSlider() {
     const { isOpenFrame } = useSelector(state => state.status)
 
     const sliderLength = moviesList.results !== undefined && moviesList.results.length
+
+    const iframeRef = useRef()
 
     const handleLeft = () => {
         handleCloseVideo()
@@ -58,6 +60,11 @@ function PopularMoviesSlider() {
     useEffect(() => {
         window.addEventListener("resize", () => {
             setWidth(window.innerWidth)
+        })
+        window.addEventListener("mousedown", e => {
+            if(iframeRef.current && !iframeRef.current.contains(e.target)){
+                dispatch(setIsOpenFrame(false))
+            }
         })
     })
     return (
@@ -112,6 +119,7 @@ function PopularMoviesSlider() {
                             className="rounded-2xl md:min-w-[570px] md:min-h-[370px] sm:min-w-[500px] sm:min-h-[300px] min-h-[200px]"
                             src={`https://www.youtube.com/embed/${movieVideo.results[0].key}?enablejsapi=1&autoplay=1`}
                             allowFullScreen
+                            ref={iframeRef}
                         ></iframe>
                     </div>
                 </div> : ""}
