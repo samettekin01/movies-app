@@ -62,7 +62,7 @@ function PopularMoviesSlider() {
             setWidth(window.innerWidth)
         })
         window.addEventListener("mousedown", e => {
-            if(iframeRef.current && !iframeRef.current.contains(e.target)){
+            if (iframeRef.current && !iframeRef.current.contains(e.target)) {
                 dispatch(setIsOpenFrame(false))
             }
         })

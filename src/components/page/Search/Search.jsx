@@ -31,7 +31,7 @@ function Search() {
                 <span className="text-white mt-auto text-2xl mb-4">{path.toLocaleUpperCase()}</span>
             </div>
             <div className="flex mt-4 gap-2 w-full justify-center">
-                <form className="w-2/6" onSubmit={handleQuery}>
+                <form className="md:w-2/6 sm:3/6 w-4/6" onSubmit={handleQuery}>
                     <label htmlFor="search" className="mb-2 text-sm font-medium text-gray-900 dark:text-white">Search</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

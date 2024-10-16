@@ -1,14 +1,17 @@
 import { BsYoutube } from 'react-icons/bs'
 import useDetail from '../../hooks/useDetail'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function MTCards(data) {
     const navigate = useNavigate()
     const { loading, setLoading } = useDetail()
     const d = data.data
 
+    const { isDragging } = useSelector(state => state.status)
+
     const handleMovieDetail = id => {
-        if (loading) {
+        if (loading && !isDragging) {
             const type = data.type === "movies" ? "movie" : data.type
             const path = `/${type}/${id}`
             navigate(path)
@@ -21,7 +24,7 @@ function MTCards(data) {
         <div
             key={d.id}
             style={{ minWidth: "170px" }}
-            className="relative group flex flex-col m-2 items-center cursor-pointer"
+            className="relative group flex flex-col m-2 items-center cursor-pointer select-none"
             onClick={() => handleMovieDetail(d.id)}
         >
             <img
