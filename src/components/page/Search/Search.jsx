@@ -10,14 +10,18 @@ function Search() {
     const location = useLocation()
     const path = location.pathname.slice(1, location.pathname.length)
 
-    const [query, setQuery] = useState("")
     const [value, setValue] = useState("")
 
-    const { content } = useSearch(path, query)
+    const { content, setPage, setSearch } = useSearch(path)
 
     const handleQuery = e => {
         e.preventDefault()
-        setQuery(value)
+        setSearch(value)
+        setPage(1)
+    }
+
+    const handleContentPage = () => {
+        setPage(page => page + 1)
     }
 
     return (
@@ -58,17 +62,29 @@ function Search() {
                     </div>
                 </form>
             </div>
-            <div className="flex flex-wrap w-11/12 h-full mt-8 gap-4 justify-center ">
-                {content && content.results && content.results.map(d =>
-                    <div key={d.id} className="flex flex-col items-center">
-                        <div
-                            style={{ minWidth: "170px", width: "100px" }}
-                            className="rounded-lg"
-                        >
-                            <MTCards data={d} type={path} />
+            <div className="flex flex-col items-center w-11/12 h-full">
+                <div className="flex flex-wrap mt-8 gap-4 justify-center">
+                    {content.length > 0 && content.map(d =>
+                        <div key={d.id} className="flex flex-col items-center">
+                            <div
+                                style={{ minWidth: "170px", width: "100px" }}
+                                className="rounded-lg"
+                            >
+                                <MTCards data={d} type={path} />
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
+                <div className="mt-4">
+                    <button className="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 
+                    focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 
+                    py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white
+                     dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        onClick={handleContentPage}
+                    >
+                        Load More
+                    </button>
+                </div>
             </div>
         </div>
     )

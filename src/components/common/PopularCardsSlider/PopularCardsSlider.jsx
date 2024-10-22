@@ -1,25 +1,35 @@
-import { useEffect, useRef, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs"
 import MTCards from "../MTCards/MTCards"
-import { setIsDragging } from "../../redux/slices/statusSlice"
+// import { setIsDragging } from "../../redux/slices/statusSlice"
 
 function PopularCardsSlider({ data, title, type }) {
     const [translateX, setTranslateX] = useState({ transform: "translateX(0px)" })
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const { moviesList } = useSelector(state => state.moviesList)
-    const { isDragging } = useSelector(state => state.status)
+    // const { isDragging } = useSelector(state => state.status)
 
     const [slideCount, setSlideCount] = useState(Math.round(window.innerWidth / 240))
     const [width, setWidth] = useState(window.innerWidth)
     const [currentIndex, setCurrentIndex] = useState(0)
     const sliderLength = moviesList.results !== undefined && moviesList.results.length
 
-    const [startPosition, setStartPosition] = useState(0)
-    const [scrollStart, setScrollStart] = useState(0)
-    const sliderRef = useRef(null)
+    // const [startPosition, setStartPosition] = useState(0)
+    // const [mouseStart, setMouseStart] = useState(0)
 
+    const [touchStart, setTouchStart] = useState(0)
+    const [touchEnd, setTouchEnd] = useState(0)
+    const minSwipeDistance = 50
+
+    // const calculateMaxTranslateX = () => {
+    //     const totalContentWidth = sliderLength * 100 / slideCount
+    //     const visibleContentWidth = 100
+    //     const maxTranslateX = totalContentWidth - visibleContentWidth
+
+    //     return maxTranslateX
+    // }
 
     const handleRight = () => {
         setCurrentIndex((currentIndex + slideCount) % sliderLength)
@@ -36,26 +46,53 @@ function PopularCardsSlider({ data, title, type }) {
         }))
     }
 
-    const handleMouseDown = (e) => {
-        setTimeout(() => dispatch(setIsDragging(true)), 100)
-        setStartPosition(e.pageX - sliderRef.current.offsetLeft)
-        setScrollStart(sliderRef.current.scrollLeft)
+    const onTouchStart = (e) => {
+        setTouchStart(e.targetTouches[0].clientX)
     }
 
-    const handleMouseMove = (e) => {
-        if (!isDragging) return
-        const x = e.pageX - sliderRef.current.offsetLeft
-        const walk = (x - startPosition)
-        sliderRef.current.scrollLeft = scrollStart - walk
+    const onTouchMove = (e) => {
+        setTouchEnd(e.targetTouches[0].clientX)
     }
 
-    const handleMouseUp = () => {
-        setTimeout(() => dispatch(setIsDragging(false)), 1)
+    const onTouchEnd = () => {
+        if (touchStart - touchEnd < -minSwipeDistance) {
+            handleLeft()
+        }
+
+        if (touchStart - touchEnd > minSwipeDistance) {
+            handleRight()
+        }
     }
 
-    const handleMouseLeave = () => {
-        setTimeout(() => dispatch(setIsDragging(false)), 1)
-    }
+    // const handleMouseDown = (e) => {
+    //     setTimeout(() => dispatch(setIsDragging(true)), 100)
+    //     setMouseStart(e.clientX)
+    //     setStartPosition(currentIndex)
+    // }
+
+    // const handleMouseMove = (e) => {
+    //     if (!isDragging) return
+    //     if (mouseStart === 0) return // Sürükleme başlamamışsa
+    //     const delta = e.clientX - mouseStart
+    //     const deltaIndex = Math.round(delta / (width / sliderLength)) // Hareket edilen mesafeyi slaytlara göre ölçeklendir
+
+    //     const newIndex = (startPosition - deltaIndex + sliderLength)
+    //     setCurrentIndex(newIndex)
+    //     setTranslateX(prevStyle => ({
+    //         ...prevStyle,
+    //         transform: `translateX(-${newIndex * (100 / sliderLength) % ((100 + 5) - (5 * slideCount))}%)`
+    //     }))
+    //     console.log(currentIndex)
+    // }
+
+    // const handleMouseUp = () => {
+    //     setTimeout(() => dispatch(setIsDragging(false)), 1)
+    //     setMouseStart(0)
+    // }
+
+    // const handleMouseLeave = () => {
+    //     setTimeout(() => dispatch(setIsDragging(false)), 1)
+    // }
 
     useEffect(() => {
         window.addEventListener("resize", () => {
@@ -72,13 +109,12 @@ function PopularCardsSlider({ data, title, type }) {
             <div
                 className="overflow-hidden z-0 flex items-center "
                 style={{ width: `${width / 1.2}px`, height: `100%` }}
-                ref={sliderRef}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
             >
-                <div className="flex z-0 duration-500 ease-out" style={translateX}>
+                <div className="flex z-0 duration-500 ease-out"
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                    style={translateX}>
                     {data ? data.map(d =>
                         <MTCards key={d.id} data={d} type={type} />
                     ) : "Loading"}

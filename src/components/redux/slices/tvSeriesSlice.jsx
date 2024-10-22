@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { options } from "../../../utils/config";
 
-export const getTvSeries = createAsyncThunk("tvSeries", async () => {
-    const response = await fetch("https://api.themoviedb.org/3/tv/popular?language=en-US&page=1", options)
+export const getTvSeries = createAsyncThunk("tvSeries", async (page) => {
+    const response = await fetch(`https://api.themoviedb.org/3/discover/tv?language=en-US&page=${page ? page : 1}`, options)
     try {
         if (response.ok) {
             return response.json()
@@ -79,10 +79,10 @@ export const getSimilarTV = createAsyncThunk("similar", async id => {
     }
 })
 
-export const handleTVSearch = createAsyncThunk("searchMovie", async query => {
-    const response = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=1`,options)
+export const handleTVSearch = createAsyncThunk("searchMovie", async ({ query, page }) => {
+    const response = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=${page}`, options)
     try {
-        if(response.ok){
+        if (response.ok) {
             return response.json()
         }
     } catch (e) {
@@ -121,7 +121,7 @@ export const tvSeriesSlice = createSlice({
         builder.addCase(getSimilarTV.fulfilled, (state, action) => {
             state.similarTVList = action.payload
         })
-        builder.addCase(handleTVSearch.fulfilled, (state,action) => {
+        builder.addCase(handleTVSearch.fulfilled, (state, action) => {
             state.searchTV = action.payload
         })
     }

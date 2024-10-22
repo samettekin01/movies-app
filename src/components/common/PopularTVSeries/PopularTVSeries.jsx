@@ -15,9 +15,9 @@ function PopularTVSeries() {
     }, [dispatch])
 
     return (
-        <div className="flex flex-col items-center"> 
-            <PopularCardsSlider data={tvSeriesList.results} title="Popular TV series" type="tv"/>
-            <PopularCardsSlider data={topRatedTvSeriesList.results} title="Top Rated TV series" type="tv"/>
+        <div className="flex flex-col items-center">
+            <PopularCardsSlider data={tvSeriesList?.results} title="Popular TV series" type="tv" />
+            <PopularCardsSlider data={topRatedTvSeriesList?.results} title="Top Rated TV series" type="tv" />
         </div>
     )
 }

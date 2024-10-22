@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { options } from "../../../utils/config";
 
-export const getPopulerMoviesList = createAsyncThunk("moviesList", async () => {
-    const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`, options)
+export const getPopulerMoviesList = createAsyncThunk("moviesList", async (page) => {
+    const response = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page ? page : 1}&sort_by=popularity.desc`, options)
     try {
         if (response.ok) {
             return response.json()
@@ -79,10 +79,10 @@ export const getSimilarMovies = createAsyncThunk("similar", async id => {
     }
 })
 
-export const handleMovieSearch = createAsyncThunk("searchMovie", async query => {
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`,options)
+export const handleMovieSearch = createAsyncThunk("searchMovie", async ({ query, page }) => {
+    const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`, options)
     try {
-        if(response.ok){
+        if (response.ok) {
             return response.json()
         }
     } catch (e) {
@@ -120,7 +120,7 @@ export const moviesSlices = createSlice({
         builder.addCase(getSimilarMovies.fulfilled, (state, action) => {
             state.similarMoviesList = action.payload
         })
-        builder.addCase(handleMovieSearch.fulfilled, (state,action) => {
+        builder.addCase(handleMovieSearch.fulfilled, (state, action) => {
             state.searchMovie = action.payload
         })
     }

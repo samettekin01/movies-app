@@ -17,7 +17,7 @@ function PopularMoviesSlider() {
     const { moviesList, movieVideo } = useSelector(state => state.moviesList)
     const { isOpenFrame } = useSelector(state => state.status)
 
-    const sliderLength = moviesList.results !== undefined && moviesList.results.length
+    const sliderLength = moviesList?.results !== undefined && moviesList?.results?.length
 
     const iframeRef = useRef()
 
