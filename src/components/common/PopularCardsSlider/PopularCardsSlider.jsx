@@ -101,7 +101,7 @@ function PopularCardsSlider({ data, title, type }) {
         })
     })
     return (
-        <div className="mt-12 p-5 relative">
+        <div className="mt-12 p-5 relative w-10/11">
             <div className="mb-5">
                 <span className="text-xl font-bold text-white">{title}</span>
                 <div className="mt-1 border-2 border-red-600 rounded-2xl w-24"></div>

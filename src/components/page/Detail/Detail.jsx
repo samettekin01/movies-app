@@ -11,7 +11,7 @@ function Detail() {
         window.addEventListener("resize", () => {
             setWidth(window.innerWidth)
         })
-    },[])
+    }, [])
 
     if (loading && detail) {
         return (
@@ -85,7 +85,9 @@ function Detail() {
                         />
                     </div>
                 </div>}
-                <PopularCardsSlider data={similarList?.results} title="Similar movies" type="movie" />
+                <div className="flex justify-center">
+                    <PopularCardsSlider data={similarList?.results} title="Similar movies" type="movie" />
+                </div>
             </div>
         )
     } else {

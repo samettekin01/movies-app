@@ -18,13 +18,18 @@ function useSearch(type) {
             if (search) {
                 dispatch(handleMovieSearch({ query: search, page: page }))
             }
-        } else if (type === "tv") {
+        }
+    }, [dispatch, search, type, page])
+
+
+    useEffect(() => {
+        if (type === "tv") {
             dispatch(getTvSeries(page))
             if (search) {
                 dispatch(handleTVSearch({ query: search, page: page }))
             }
         }
-    }, [dispatch, search, type, page])
+    }, [dispatch, type, page, search])
 
     useEffect(() => {
         if (type === "movies") {
@@ -35,7 +40,11 @@ function useSearch(type) {
                     return page === 1 ? results : [...prev, ...results]
                 })
             }
-        } else if (type === "tv") {
+        }
+    }, [moviesList, searchMovie, page, search, type])
+
+    useEffect(() => {
+        if (type === "tv") {
             const newResults = search ? searchTV?.results : tvSeriesList?.results
             if (newResults) {
                 setContent(prev => {
@@ -44,13 +53,13 @@ function useSearch(type) {
                 })
             }
         }
-    }, [moviesList, searchMovie, searchTV, tvSeriesList, page, search, type])
+    }, [tvSeriesList, searchTV, search, type, page])
 
     useEffect(() => {
         setContent([])
         setPage(1)
         window.scrollTo(0, 0)
-    }, [type,search])
+    }, [type, search])
 
     return { content, setPage, setSearch }
 }
