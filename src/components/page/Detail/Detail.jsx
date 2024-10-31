@@ -15,13 +15,12 @@ function Detail() {
 
     if (loading && detail) {
         return (
-            <div className="w-full h-full items-center">
+            <div className="flex flex-col w-full">
                 <div
                     key={detail?.id}
-                    className="flex justify-center items-center"
+                    className="flex w-full h-screen justify-center items-center"
                     style={{
                         width: `100%`,
-                        height: "100%",
                         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)), url(https://image.tmdb.org/t/p/original/${detail?.backdrop_path})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center center"

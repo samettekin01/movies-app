@@ -68,7 +68,7 @@ function PopularMoviesSlider() {
         })
     })
     return (
-        <div className="flex overflow-hidden w-full h-full">
+        <div className="flex overflow-hidden w-full h-screen">
             <div className="flex flex-row transition duration-500" style={style}>
                 {moviesList.results ? moviesList.results.map(d =>
                     <div

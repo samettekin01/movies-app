@@ -25,7 +25,7 @@ function Search() {
     }
 
     return (
-        <div className="flex flex-col w-full h-full items-center">
+        <div className="flex flex-col w-full items-center">
             <div className="flex w-full min-h-[200px] justify-center"
                 style={{
                     backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url(${bgImage})`,

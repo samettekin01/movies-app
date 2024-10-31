@@ -4,9 +4,9 @@ import PopularTVSeries from "../../common/PopularTVSeries/PopularTVSeries"
 
 function MainPage() {
     return (
-        <div className="w-full h-full">
+        <div className="flex flex-col w-full">
             <PopularMoviesSlider />
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full">
                 <PopularMoviesCards />
                 <PopularTVSeries />
             </div>
